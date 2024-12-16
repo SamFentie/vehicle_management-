@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import NavigationBar from "./components/NavigationBar/NavigationBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="flex flex-row w-[100vw] h-[100vh] bg-slate-200 gap-5">
+          <NavigationBar username={' Username'}/>
+          <div className="my-3 flex-grow overflow-y-auto overflow-x-hidden">
+              {children}
+          </div> 
+        </div>
       </body>
     </html>
   );
