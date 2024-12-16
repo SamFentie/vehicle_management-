@@ -15,6 +15,7 @@ const InputFields = ({information}:{information:string[]}) => {
         setNewButton('loading')
         try {
             // Send data to your API endpoint
+            if(name!==''&&status!==''){
             const response = await fetch("/api/new", {
               method: "POST",
               headers: {
@@ -29,22 +30,30 @@ const InputFields = ({information}:{information:string[]}) => {
               throw new Error(`Error: ${response.statusText}`);
             }
             const result = await response.json();
-            if(result.status===200)
+            if(result.status===200){
                 toast.success('Success!', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
-            else  
-                toast.error('Error Pleas try again?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
-            setUpdateButton('active')
-            setName('')
-            setStatus('')
+                setName('')
+                setStatus('')
+                }
+            else{  
+                toast.error('Error Please try again?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
+            }
+                
+            }else{
+                toast.error('Please fill all fields?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
+            }
+           
             setNewButton('active')
           } catch (error) {
-            toast.error('Error Pleas try again?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
+            toast.error('Error Please try again?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
             setNewButton('active')
           }
        }
        const update_vehicle=async()=>{
+        setUpdateButton('loading')
         try {
             // Send data to your API endpoint
+            if(name!==''&&status!==''){
             const response = await fetch("/api/update", {
               method: "PATCH",
               headers: {
@@ -60,8 +69,12 @@ const InputFields = ({information}:{information:string[]}) => {
             if(result.status===200)
                 toast.success('Success!', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
             else  
-                toast.error('Error Pleas try again?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
-            setUpdateButton('active')
+                toast.error('Error Please try again?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
+            
+          }else{
+            toast.error('Please fill all fields?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
+          }
+          setUpdateButton('active')
         } catch (error) {
             console.error("Error sending data:", error);
             toast.error('Error Pleas try again?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
@@ -69,8 +82,10 @@ const InputFields = ({information}:{information:string[]}) => {
           }
        }
        const delete_vehicle=async()=>{
+        setDeleteButton('loading')
         try {
             // Send data to your API endpoint
+            if(name!==''&&status!==''){
             const response = await fetch("/api/delete", {
               method: "DELETE",
               headers: {
@@ -86,9 +101,12 @@ const InputFields = ({information}:{information:string[]}) => {
             if(result.status===200)
                 toast.success('Success!', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
             else  
-                toast.error('Error Pleas try again?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
-            setUpdateButton('active')
+                toast.error('Error Please try again?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
             
+            }else{
+              toast.error('Please fill all fields?', {position: "top-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "light",});
+            }
+            setDeleteButton('active')
           } catch (error) {
             console.error("Error sending data:", error);
           }
@@ -101,17 +119,17 @@ const InputFields = ({information}:{information:string[]}) => {
                     Vehicle Name
                     <input onChange={(e)=>setName(e.target.value)} value={name} type="text" className="grow" placeholder="name..." />
                 </label>
-                <select onChange={(e)=>setStatus(e.target.value)} className="select select-bordered w-full max-w-xs m-2">
-                    <option disabled={true} selected={status===''}>Vehicle Status?</option>
-                    <option value='Pending' selected={status==='Pending'}>Pending</option>
-                    <option value='Active' selected={status==='Active'}>Active</option>
+                <select defaultValue={status} onChange={(e)=>setStatus(e.target.value)} className="select select-bordered w-full max-w-xs m-2">
+                    <option value='' disabled>Vehicle Status?</option>
+                    <option value='Pending' >Pending</option>
+                    <option value='Active' >Active</option>
                 </select>
                 <div className="w-full pl-4">
                     {information[0]==="" ? 
-                    <button disabled={newButton==='loading'} onClick={new_vehicle} className="btn btn-success text-white">Add new {newButton==='loading'&&<span className="loading loading-spinner loading-xs"></span>}</button>:
+                     <div className="tooltip" data-tip="Update"><button disabled={newButton==='loading'} onClick={new_vehicle} className="btn btn-success text-white">Add new {newButton==='loading'&&<span className="loading loading-spinner loading-xs"></span>}</button></div>:
                     <div className=" flex flex-row gap-4"> 
-                            <button onClick={update_vehicle} className="btn btn-warning text-white">Update {updateButton==='loading'&&<span className="loading loading-spinner loading-xs"></span>}</button>
-                            <button onClick={delete_vehicle} className="btn btn-error text-white">Delete {deleteButton==='loading'&&<span className="loading loading-spinner loading-xs"></span>}</button>
+                             <div className="tooltip" data-tip="Update"><button onClick={update_vehicle} className="btn btn-warning text-white">Update {updateButton==='loading'&&<span className="loading loading-spinner loading-xs"></span>}</button></div>
+                             <div className="tooltip" data-tip="Delete"><button onClick={delete_vehicle} className="btn btn-error text-white">Delete {deleteButton==='loading'&&<span className="loading loading-spinner loading-xs"></span>}</button></div>
                     </div>}
             </div>
         </div>

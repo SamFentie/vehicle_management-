@@ -49,10 +49,13 @@ const NavigationBar = ({username=''}:{username:string}) => {
                 < div className='flex flex-row w-full justify-between text-gray-500 border-[1.5px] border-gray-400 rounded-md items-center'>
                     {sideMenu?
                         <a href="" target="_blank" className="p-1 flex flex-row gap-1 items-center cursor-pointer">
-                                <IoMdContact className="w-5 h-5"/>
+                                <div className="tooltip" data-tip="Profile">
+                                    <IoMdContact className="w-5 h-5"/>
+                                </div>
                                 <p className='text-gray-500'>{username}</p>
                         </a>:<></>}
-                    <CiLogout  className='w-5 h-5'/>
+                        <div className="tooltip" data-tip="Logout"><CiLogout  className='w-5 h-5'/></div>
+                    
                     
                 </div>
                 {/* Page */}

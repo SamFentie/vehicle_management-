@@ -104,12 +104,14 @@ const DynamicTable = ({ path,}) => {
               ))}
               <td className="border border-gray-200 justify-center items-center flex">
                 {path && (
+                   <div className="tooltip" data-tip="Edit">
                   <button
                     onClick={() => handleClick(row)}
                     className="  px-2 py-1 rounded"
                   >
                     <FaEdit  className="w-5 h-5" alt="" />
                   </button>
+                  </div>
                 )}
               </td>
             </tr>
