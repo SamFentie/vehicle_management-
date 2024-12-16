@@ -1,17 +1,42 @@
 'use client'
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { useRouter } from 'next/navigation'; // Import useRouter from next/router
 
-const DynamicTable = ({ data, path,}) => {
+
+const DynamicTable = ({ path,}) => {
   const [filters, setFilters] = useState({});
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState([]);
   const router = useRouter();  // Initialize the router
+  const [data, setData] = useState([]); // State to store API data
+  const [loading, setLoading] = useState(true); // State to manage loading state
+  const [error, setError] = useState(null); // State to store any errors
+
+  // Fetch data from API when the component mounts
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("/api/vehicles");
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+        const result = await response.json();
+        setData(result.formattedData); // Set the fetched data
+        setFilteredData(result.formattedData)
+      } catch (err) {
+        setError(err.message); // Handle errors
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const handleClick = (row) => {
     
     if (path) {
-      const url =`${path}/${row.ID}&&${row.Name}&&${row.Status}`;
+      const url =`${path}/${row.id}&&${row.vehicle_name}&&${row.Status}`;
       router.push(url);  // Navigate to the URL
     }
   };
@@ -37,15 +62,17 @@ const DynamicTable = ({ data, path,}) => {
     setFilteredData(newFilteredData);
   };
 
+  if (loading) return <div className="p-4 w-[100%] flex text-gray-500 justify-center items-center h-[80vh] "><span className="loading loading-ring loading-lg"></span></div>;
+  if (error) return <div>Error: {error}</div>;
   return (
-    <div className="p-4 w-full text-gray-500">
+      <div className="p-4 w-full text-gray-500">
       {/* Search Inputs */}
       <div className="mb-4 grid grid-cols-4 gap-2 w-[90%]">
-        {columns.map((column) => (
+        {columns.map((column,index) => (
           
-            <label className="input flex items-center gap-2 m-2 outline-none focus:border-0 ">
+            <label key={index} className="input flex items-center gap-2 m-2 outline-none focus:border-0 ">
                     {column}
-                    <input  placeholder={`By ${column}`} onChange={(event) => handleFilterChange(column, event)} type="text" className="grow" />
+                    <input  placeholder="..." onChange={(event) => handleFilterChange(column, event)} type="text" className="grow" />
             </label>        
         ))}
       </div>

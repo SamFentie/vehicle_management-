@@ -58,7 +58,7 @@ const NavigationBar = ({username=''}:{username:string}) => {
                 {/* Page */}
                 <Link href={'/vehicle'} onClick={()=>setPage('vehicle')} className="text-gray-500 flex flex-row justify-between items-center rounded-md hover:bg-slate-100 min-h-[5vh]">
                     <div className="flex flex-row rounded-md gap-4 items-center w-[80%] mx-2 ">
-                        <FaCar className='w-5 h-5'/> {sideMenu&&<span>Vehicle</span>}
+                        <FaCar className='w-5 h-5'/> {sideMenu&&<span>Vehicles</span>}
                     </div>
                     {page==='vehicle'?<MdKeyboardDoubleArrowRight className='w-6 h-6'/>:<IoIosArrowForward className='w-5 h-5'/>}
                 </Link>

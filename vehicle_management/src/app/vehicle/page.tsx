@@ -5,13 +5,6 @@ import { VscAdd } from 'react-icons/vsc'
 
 
 const page = () => {
-    const thing=[
-        {'ID':'1','Name':'BMW-89','Status':'Pending','Last update':'Department'},
-        {'ID':'1','Name':'KARET','Status':'Pending','Last update':'Department'},
-        {'ID':'1','Name':'JKKL','Status':'Active','Last update':'Department'},
-        {'ID':'1','Name':'mJKJ','Status':'Active','Last update':'Department'},
-        {'ID':'1','Name':'ENTO','Status':'Pending','Last update':'Department'}
-    ]
   return (
     <div className="mt-5 flex flex-wrap w-full">
         <div className="flex flex-row gap-2 w-full">
@@ -20,7 +13,7 @@ const page = () => {
             </div>
         </div>
         <div className="flex w-full">
-            <DynamicTable data={thing} path={"vehicle/new/"}/>
+            <DynamicTable  path={"/vehicle/new/"}/>
         </div>
     </div>
   )

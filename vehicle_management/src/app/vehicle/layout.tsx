@@ -2,7 +2,7 @@ import React from 'react'
 import SectionHeader from '../components/SectionHeader/SectionHeader'
 
 
-const layout = ({ children }) => {
+const layout = ({children,}: Readonly<{children: React.ReactNode;}>) => {
  
   return (
     <div className="ml-5 w-full">

@@ -22,8 +22,8 @@ export default function Home() {
               <button className="btn btn-outline btn-success hover:text-white"><VscAdd /></button>
           </div>
           </div>
-          <div className="flex w-full">
-                <DynamicTable data={thing} path={""} />
+          <div className="flex w-[80vw] justify-center items-center h-[80vh]">
+                <h4 className="text-gray-500">Home</h4>
           </div>
         </div>
       </div>
