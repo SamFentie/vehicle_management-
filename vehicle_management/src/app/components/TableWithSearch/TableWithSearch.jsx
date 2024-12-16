@@ -11,7 +11,7 @@ const DynamicTable = ({ data, path,}) => {
   const handleClick = (row) => {
     
     if (path) {
-      const url =`${path}/${row.id}`;
+      const url =`${path}/${row.ID}&&${row.Name}&&${row.Status}`;
       router.push(url);  // Navigate to the URL
     }
   };
@@ -40,19 +40,13 @@ const DynamicTable = ({ data, path,}) => {
   return (
     <div className="p-4 w-full text-gray-500">
       {/* Search Inputs */}
-      <div className="mb-4 grid grid-cols-4 gap-4">
+      <div className="mb-4 grid grid-cols-4 gap-2 w-[90%]">
         {columns.map((column) => (
-          <div key={column}>
-            <label className="block text-sm font-medium text-gray-700">
-              {column}
-            </label>
-            <input
-              type="text"
-              placeholder={`Search ${column}`}
-              onChange={(event) => handleFilterChange(column, event)}
-              className="border px-2 py-1"
-            />
-          </div>
+          
+            <label className="input flex items-center gap-2 m-2 outline-none focus:border-0 ">
+                    {column}
+                    <input  placeholder={`By ${column}`} onChange={(event) => handleFilterChange(column, event)} type="text" className="grow" />
+            </label>        
         ))}
       </div>
 
@@ -76,7 +70,7 @@ const DynamicTable = ({ data, path,}) => {
               {columns.map((column) => (
                 <td
                   key={column}
-                  className="border border-gray-200 px-4 py-2"
+                  className="border border-white px-4 py-2"
                 >
                   {row[column]}
                 </td>
